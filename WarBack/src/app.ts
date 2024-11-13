@@ -2,6 +2,7 @@ import { connect } from 'mongoose';
 import { connectToDB } from './dal/database';
 import dotenv from 'dotenv';
 import express from 'express';
+import userRoutes from './routes/userRoutes';
 
 dotenv.config();
 
@@ -12,6 +13,9 @@ const PORT = process.env.PORT;
 app.use(express.json());
 // Connects to Mongo
 connectToDB();
+
+// Routes
+app.use('/users', userRoutes);
 
 app.listen(PORT, () => {
   try {
