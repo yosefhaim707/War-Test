@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { JWTPayload } from './tokenGenerator';
-import e from 'express';
+
 
 const loginVerify = (token: string): boolean => {
   const secretKey = process.env.SECRET_KEY;

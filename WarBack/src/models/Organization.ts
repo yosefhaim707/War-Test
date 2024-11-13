@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
+import Missile, { IMissile } from './Missile';
 
-interface Resource {
+export  interface Resource {
   name: string;
   amount: number;
 };
@@ -13,7 +14,7 @@ export interface IOrganization extends Document {
 
 const Organization: Schema<IOrganization> = new Schema({
   name: { type: String, required: true },
-  resources: { type: [{ name: String, amount: Number }], required: true },
+  resources: { type: [{name: String, amount: Number}],  required: true },
   budget: { type: Number, required: true },
 });
 

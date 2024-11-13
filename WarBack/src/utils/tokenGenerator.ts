@@ -1,15 +1,17 @@
 import jwt from 'jsonwebtoken';
+import { IUser } from '../models/User';
+import { IOrganization } from '../models/Organization';
 
 export interface JWTPayload {
   username: string;
-  isAdmin: boolean;
+  organizationName: string;
 }
 
-const tokenGenerator = (user: any): string => {
+const tokenGenerator = (user: IUser): string => {
   const secretKey: string | undefined = process.env.SECRET_KEY;
   const payload: JWTPayload = {
-    username: user.username,
-    isAdmin: user.isAdmin,
+    username: user.name,
+    organizationName: (user.organization as IOrganization).name
   };
   if (!secretKey) {
     throw new Error('Secret key is missing');

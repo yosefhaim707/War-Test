@@ -1,6 +1,7 @@
 import Organization, { IOrganization } from '../models/Organization';
 import UserDTO from '../DTO/userDTO';
 import User, { IUser } from '../models/User';
+import bicriptPassword from './bicriptPassword';
 
 const userCreator = async (data: UserDTO): Promise<IUser> => {
   const organization: IOrganization | null = await Organization.findOne({
@@ -12,11 +13,11 @@ const userCreator = async (data: UserDTO): Promise<IUser> => {
 
   const user: IUser = new User({
     name: data.name,
-    password: data.password,
+    password: await bicriptPassword(data.password),
     organization: organization._id,
     area: data.area,
   });
-  return user;
+  return user.populate('organization');
 };
 
 export default userCreator;
