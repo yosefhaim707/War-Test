@@ -1,7 +1,7 @@
 import { RequestHandler, Request, Response } from 'express';
 import loginDTO from '../DTO/loginDTO';
 import loginService, { LoginResponse } from '../services/userService/loginService';
-import { IUser } from '../models/User';
+
 
 const loginController: RequestHandler = async (
   req: Request,

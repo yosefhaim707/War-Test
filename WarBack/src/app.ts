@@ -3,6 +3,7 @@ import { connectToDB } from './dal/database';
 import dotenv from 'dotenv';
 import express from 'express';
 import userRoutes from './routes/userRoutes';
+import attackRoutes from './routes/attackRoutes';
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ connectToDB();
 
 // Routes
 app.use('/users', userRoutes);
-
+app.use('/attack', attackRoutes);
 app.listen(PORT, () => {
   try {
     console.log('Server listening to port ' + PORT);
