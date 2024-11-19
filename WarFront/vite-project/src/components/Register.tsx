@@ -5,7 +5,7 @@ import User from "../types/User";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:7400");
+const socket = io("http://localhost:7300");
 
 const Register: FC = (): JSX.Element => {
     const [organization, setOrganization] = useState<string[]>([]);
@@ -30,25 +30,38 @@ const Register: FC = (): JSX.Element => {
         const organizationValue = organizationSelect.current?.value;
         if (usernameValue && passwordValue && organizationValue) {
             const user: User = {
-                username: usernameValue,
+                name: usernameValue,
                 password: passwordValue,
                 organization: organizationValue
             };
             async function registerUser() {
-                const response = await axios.post("http://localhost:7400/users/register", user);
-                if (response.status === 200) {
+                try {
+                    const response = await fetch("http://localhost:7400/users/register", {
+                        method: "POST",
+                        body: JSON.stringify(user),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || 'Registration failed');
+                    }
+                    
+                    await response.json();
                     navigate("/login");
                     socket.connect();
                     socket.emit("joinRoom", organizationValue);
-
-                }
-                else {
-                    console.log(response.data);
+                    console.log("User registered successfully");
+                } catch (error) {
+                    console.error(error instanceof Error ? error.message : 'An unknown error occurred');
                 }
             }
             registerUser();
         }
     };
+
 
     return (
         <div>

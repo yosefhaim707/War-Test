@@ -14,8 +14,7 @@ const userCreator = async (data: UserDTO): Promise<IUser> => {
   const user: IUser = new User({
     name: data.name,
     password: await bicriptPassword(data.password),
-    organization: organization._id,
-    area: data.area,
+    organization: organization._id
   });
   return user.populate('organization');
 };

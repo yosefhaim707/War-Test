@@ -1,16 +1,10 @@
-import axios from "axios";
-
-
-
 const fetchOrganizations = async (): Promise<string[]> => {
-    const response: string[] | null = await axios.get(
-      'http://localhost:7400/users/organizations'
-    );
-    if (!response) {
-        throw new Error("Failed to fetch organizations");
-    }
-    return response;
+  const response = await fetch('http://localhost:7400/users/organizations');
+  if (!response) {
+    throw new Error('Failed to fetch organizations');
+  }
+  const organizations: string[] = await response.json();
+  return organizations;
 };
 
 export default fetchOrganizations;
-
